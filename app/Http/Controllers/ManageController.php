@@ -7,10 +7,27 @@ use Illuminate\Http\Request;
 
 class ManageController extends Controller
 {
-    public function welcome()
+    public function welcome(Request $request)
     {
-        $member = Member::all();
-        return view('welcome', compact('member'));
+        $query = Member::query();
+        // ค้นหาตามชื่อ
+        if ($request->filled('first_name')) {
+            $query->where('first_name', 'like', '%' . $request->first_name . '%');
+        }
+        // ค้นหาตามนามสกุล
+        if ($request->filled('last_name')) {
+            $query->where('last_name', 'like', '%' . $request->last_name . '%');
+        }
+        // อายุน้อยไปมาก
+        if ($request->age_order === 'asc') {
+            $query->orderBy('birth_date', 'desc');
+            // อายุมากไปน้อย
+        } elseif ($request->age_order === 'desc') {
+
+            $query->orderBy('birth_date', 'asc');
+        }
+        $members = $query->get();
+        return view('welcome', compact('members'));
     }
 
     // รายละเอียดสมาชิก detail
@@ -101,5 +118,10 @@ class ManageController extends Controller
         $member->profile_image = $ImagePath;
         $member->save();
         return redirect()->back()->with('success', 'บันทึกข้อมูลสมาชิกเรียบร้อยแล้ว');
+    }
+
+
+    public function report() {
+        return view('report') ; 
     }
 }
