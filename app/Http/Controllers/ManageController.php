@@ -52,6 +52,17 @@ class ManageController extends Controller
     }
 
 
+    // ลบ
+    public function deleteMember($id)
+    {
+        $member = Member::find($id);
+        if (!$member) {
+            abort(404, 'ไม่พบข้อมูล');
+        }
+        $member->delete();
+        return redirect()->back()->with('success', 'ลบข้อมูลสมาชิกสำเร็จแล้ว');
+    }
+
 
 
 

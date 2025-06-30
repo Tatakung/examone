@@ -20,6 +20,7 @@ Route::get('/add-Member', [ManageController::class, 'addMember'])->name('addMemb
 Route::get('/Member-detail/{id}', [ManageController::class, 'detailMember'])->name('detailMember');
 
 Route::put('/Member-detail-updated/{id}', [ManageController::class, 'updateMember'])->name('updateMember');
+Route::delete('/Member-detail-delete/{id}', [ManageController::class, 'deleteMember'])->name('deleteMember');
 
 
 

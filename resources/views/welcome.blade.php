@@ -34,8 +34,11 @@
                 </p>
             </div>
         </div>
-
-
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
         {{-- แสดงผลข้อมูลตาราง --}}
         <div class="mt-3">
             @if ($member->count() > 0)
@@ -46,6 +49,7 @@
                             <th scope="col">ชื่อ-สกุล</th>
                             <th scope="col">วันเกิด</th>
                             <th scope="col">อายุ</th>
+                            <th scope="col">วันที่ปรับปรุงล่าสุด</th>
                             <th scope="col">การจัดการ</th>
                         </tr>
                     </thead>
@@ -53,7 +57,8 @@
                         @foreach ($member as $item)
                             <tr>
                                 <th scope="row">
-                                    <img src="" alt="">
+                                    <img src="{{ asset('storage/' . $item->profile_image) }}" alt="รูปโปรไฟล์"
+                                        style="max-width:50px;">
                                 </th>
                                 <td>
                                     {{ $item->title }}{{ $item->first_name }} {{ $item->last_name }}
@@ -64,32 +69,51 @@
                                 <td>
                                     ยังไม่ระบุ
                                 </td>
+
+                                <td>
+                                    {{$item->updated_at}}
+                                </td>
+
                                 <td>
                                     <a href="{{ route('detailMember', ['id' => $item->id]) }}"
                                         class="btn btn-danger">แก้ไข</a>
-                                    <button class="btn btn-danger">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#DeleteModal{{ $item->id }}">
                                         ลบ
                                     </button>
+
                                 </td>
 
                                 {{-- modal แสดงผลตอนที่เราจะกดลบ --}}
-                                <div class="modal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="DeleteModal{{ $item->id }}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ...
+
+                                            </div>
+                                            <div class="modal-footer">
+
+                                                <form action="{{ route('deleteMember', ['id' => $item->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">ยกเลิก</button>
+                                                    <button type="submit" class="btn btn-primary">ยันยันการลบ</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </tr>
