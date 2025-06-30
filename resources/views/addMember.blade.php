@@ -26,12 +26,11 @@
 
         <div class="mt-2">
             <div class="d-flex">
-                <p class="m-2">
-                    <a href="/">ทั้งหมด</a>
-                </p>
-                <p class="m-2">
-                    <a href="">เพิ่ม</a>
-                </p>
+               <div class="mt-2 d-flex gap-2">
+            <a href="{{ route('welcome') }}" class="btn btn-primary">ทั้งหมด</a>
+            <a href="{{ route('addMember') }}" class="btn btn-success">เพิ่ม</a>
+            <a href="{{ route('report') }}" class="btn btn-success">รายงาน</a>
+        </div>
             </div>
         </div>
 

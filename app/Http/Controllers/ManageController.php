@@ -121,7 +121,27 @@ class ManageController extends Controller
     }
 
 
-    public function report() {
-        return view('report') ; 
+    public function report()
+    {
+        $data = Member::all();
+
+        // ส่วนที่ 1  รายงานจำนวนสมาชิกตามอายุ
+        $list = [];
+        foreach ($data as $item) {
+            // คำนวณอายุ
+            $age = \Carbon\Carbon::parse($item->birth_date)->age;
+            // ถ้า key อายุนี้มีอยู่แล้ว + 1 เข้าไป เพื่อเพิ่มจำนวนคน
+            if (array_key_exists($age, $list)) {
+                $list[$age] += 1;
+            } else {
+                // ถ้าไม่มีเพิ่มและ เพิ่ม1คนเข้าไปนะ 
+                $list[$age] = 1;
+            }
+        }
+        ksort($list);
+        // ส่วนที่ 2 คือเราใช้ chart.js เข้ามาช่วย
+        $labels = array_keys($list);    //แก้นx  
+        $totals = array_values($list);  //แกนy 
+        return view('report', compact('list', 'labels', 'totals'));
     }
 }
