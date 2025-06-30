@@ -17,4 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ManageController::class, 'welcome'])->name('welcome');
 Route::get('/add-Member', [ManageController::class, 'addMember'])->name('addMember');
+Route::get('/Member-detail/{id}', [ManageController::class, 'detailMember'])->name('detailMember');
+
+Route::put('/Member-detail-updated/{id}', [ManageController::class, 'updateMember'])->name('updateMember');
+
+
+
 Route::post('/add-Member/save', [ManageController::class, 'addMemberSaved'])->name('addMemberSaved');
