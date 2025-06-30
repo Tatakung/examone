@@ -16,10 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [ManageController::class, 'welcome'])->name('welcome');
+Route::get('/examTwo', [ManageController::class, 'examTwo'])->name('examtwo');
+
 Route::get('/filter', [ManageController::class, 'welcome'])->name('welcome'); //ฟิลเตอร์
-
-
-
 
 Route::get('/add-Member', [ManageController::class, 'addMember'])->name('addMember');
 Route::get('/report', [ManageController::class, 'report'])->name('report');

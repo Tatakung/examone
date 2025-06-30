@@ -17,6 +17,7 @@
             <a href="{{ route('welcome') }}" class="btn btn-primary">ทั้งหมด</a>
             <a href="{{ route('addMember') }}" class="btn btn-success">เพิ่ม</a>
             <a href="{{ route('report') }}" class="btn btn-success">รายงาน</a>
+            <a href="{{ route('examtwo') }}" class="btn btn-success">แบบทดสอบที่ 2 </a>
         </div>
 
         @if (session('success'))
@@ -51,6 +52,7 @@
                 <table class="table table-bordered align-middle">
                     <thead>
                         <tr>
+                            <th>ลำดับ</th>
                             <th>รูปภาพ</th>
                             <th>ชื่อ-นามสกุล</th>
                             <th>วันเกิด</th>
@@ -60,8 +62,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($members as $item)
+                        @foreach ($members as $index => $item)
                             <tr>
+                                <td>
+                                    {{ $index + 1 }}
+                                </td>
                                 <td>
                                     @if ($item->profile_image)
                                         <img src="{{ asset('storage/' . $item->profile_image) }}" alt="รูปโปรไฟล์"
@@ -70,13 +75,24 @@
                                         ไม่มีรูป
                                     @endif
                                 </td>
-                                <td>{{ $item->title }} {{ $item->first_name }} {{ $item->last_name }}</td>
-                                <td>{{ $item->birth_date }}</td>
+                                <td>{{ $item->title }}{{ $item->first_name }} {{ $item->last_name }}</td>
+                                {{-- <td>{{ $item->birth_date }}</td> --}}
                                 <td>
-                                    {{-- คำนวณอายุจากวันเกิด --}}
+                                    {{ \Carbon\Carbon::parse($item->birth_date)->locale('th')->isoFormat('D MMM') }}
+                                    {{ \Carbon\Carbon::parse($item->birth_date)->year + 543 }}
+                                </td>
+                                <td>
+                                    
                                     {{ \Carbon\Carbon::parse($item->birth_date)->age }} ปี
                                 </td>
-                                <td>{{ $item->updated_at->format('d/m/Y H:i') }}</td>
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->updated_at)->locale('th')->isoFormat('D MMM') }}
+                                    {{ \Carbon\Carbon::parse($item->updated_at)->year + 543 }}
+                                    เวลา
+                                    {{ \Carbon\Carbon::parse($item->updated_at)->timezone('Asia/Bangkok')->format('H:i') }}
+                                    น.
+
+                                </td>
                                 <td>
                                     <a href="{{ route('detailMember', ['id' => $item->id]) }}"
                                         class="btn btn-warning btn-sm">แก้ไข</a>
@@ -114,15 +130,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{-- End Modal --}}
+                                    
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
 
-                {{-- paginate ถ้าใช้ paginate --}}
-                {{-- {{ $members->links() }} --}}
+            
             @else
                 <p>ไม่มีข้อมูลสมาชิก</p>
             @endif

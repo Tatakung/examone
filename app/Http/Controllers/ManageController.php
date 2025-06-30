@@ -125,7 +125,7 @@ class ManageController extends Controller
     {
         $data = Member::all();
 
-        // ส่วนที่ 1  รายงานจำนวนสมาชิกตามอายุ
+        // ส่วนที่1รายงานจำนวนสมาชิกตามอายุ
         $list = [];
         foreach ($data as $item) {
             // คำนวณอายุ
@@ -139,9 +139,18 @@ class ManageController extends Controller
             }
         }
         ksort($list);
-        // ส่วนที่ 2 คือเราใช้ chart.js เข้ามาช่วย
+        // ส่วนที่2คือเราใช้ chart.js เข้ามาช่วย จัดรูแบบบตาม chart js 
         $labels = array_keys($list);    //แก้นx  
         $totals = array_values($list);  //แกนy 
         return view('report', compact('list', 'labels', 'totals'));
     }
+
+
+    // แบบทดสอบที่ 2 
+    public function examTwo() {
+        return view('examtwo') ; 
+    }
+
+
+
 }
