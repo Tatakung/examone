@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', [ManageController::class, 'welcome'])->name('welcome');
+Route::get('/add-Member', [ManageController::class, 'addMember'])->name('addMember');
+Route::post('/add-Member/save', [ManageController::class, 'addMemberSaved'])->name('addMemberSaved');
